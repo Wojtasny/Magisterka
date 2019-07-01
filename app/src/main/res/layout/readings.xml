@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1">
+<LinearLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/control_section"
+        android:textSize="17sp"
+        android:background="@color/colorPrimary"
+        android:textAlignment="center"
+        android:clickable="true"
+        android:onClick="toggle_control_readings"
+        android:text="@string/control_section"/>
+    <include layout="@layout/control_readings"
+        android:id="@+id/control_section_readings"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/engine_section"
+        android:textSize="17sp"
+        android:background="@color/colorPrimary"
+        android:textAlignment="center"
+        android:clickable="true"
+        android:onClick="toggle_engine_readings"
+        android:text="@string/engine_section"/>
+
+        <include layout="@layout/engine_readings"
+            android:id="@+id/engine_section_readings"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fuel_section"
+        android:textSize="17sp"
+        android:background="@color/colorPrimary"
+        android:textAlignment="center"
+        android:clickable="true"
+        android:onClick="toggle_fuel_readings"
+        android:text="@string/fuel_section"/>
+
+        <include layout="@layout/fuel_readings"
+            android:id="@+id/fuel_section_readings"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pressure_section"
+        android:textSize="17sp"
+        android:background="@color/colorPrimary"
+        android:textAlignment="center"
+        android:clickable="true"
+        android:onClick="toggle_pressure_readings"
+        android:text="@string/pressure_section"/>
+
+    <include layout="@layout/pressure_readings"
+        android:id="@+id/pressure_section_readings"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/temperature_section"
+        android:textSize="17sp"
+        android:background="@color/colorPrimary"
+        android:textAlignment="center"
+        android:clickable="true"
+        android:onClick="toggle_temperature_readings"
+        android:text="@string/temperature_section"/>
+
+    <include layout="@layout/temperature_readings"
+        android:id="@+id/temperature_section_readings"/>
+
+</LinearLayout>
+</ScrollView>

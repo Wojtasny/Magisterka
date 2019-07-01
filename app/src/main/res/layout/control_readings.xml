@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/DISTANCE_TRAVELED_MIL_ON_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/DISTANCE_TRAVELED_MIL_ON"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/DISTANCE_TRAVELED_MIL_ON"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/DISTANCE_TRAVELED_AFTER_CODES_CLEARED_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/DISTANCE_TRAVELED_AFTER_CODES_CLEARED"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/DISTANCE_TRAVELED_AFTER_CODES_CLEARED"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/DTC_NUMBER_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/DTC_NUMBER"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/DTC_NUMBER"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/EQUIV_RATIO_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/EQUIV_RATIO"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/EQUIV_RATIO"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/IGNITION_MONITOR_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/IGNITION_MONITOR"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/IGNITION_MONITOR"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/CONTROL_MODULE_VOLTAGE_TITlE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/CONTROL_MODULE_VOLTAGE"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/CONTROL_MODULE_VOLTAGE"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/PENDING_TROUBLE_CODES_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/PENDING_TROUBLE_CODES"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/PENDING_TROUBLE_CODES"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/PERMANENT_TROUBLE_CODES_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/PERMANENT_TROUBLE_CODES"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/PERMANENT_TROUBLE_CODES"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/TIMING_ADVANCE_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/TIMING_ADVANCE"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/TIMING_ADVANCE"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/TROUBLE_CODES_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/TROUBLE_CODES"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/TROUBLE_CODES"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/VIN_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/VIN"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/VIN"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/SPEED_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/SPEED"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/SPEED"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/AIR_INTAKE_TEMP_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/AIR_INTAKE_TEMP"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/AIR_INTAKE_TEMP"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/AMBIENT_AIR_TEMP_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/AMBIENT_AIR_TEMP"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/AMBIENT_AIR_TEMP"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ENGINE_COOLANT_TEMP_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/ENGINE_COOLANT_TEMP"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ENGINE_COOLANT_TEMP"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</LinearLayout>

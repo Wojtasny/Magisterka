@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">Projekt Magisterski</string>
+    <string name="pickADevice">Select device to connect</string>
+    <string name="title_paired_devices">Paired devices</string>
+    <string name="title_discovered_devices">Discovered devices</string>
+    <string name="button_scan">Scan for devices</string>
+    <string name="none_paired">No previously paired devices</string>
+    <string name="scanning">Scanning...</string>
+    <string name="select_device">Select device</string>
+    <string name="none_found">No device found</string>
+    <string name="connect_device">Connect Device</string>
+    <string name="connecting">Connecting</string>
+    <string name="status_connected">Connected to:</string>
+    <string name="not_connected">No connected device</string>
+    <string name="request_permission">This app needs camera permission.</string>
+    <string name="info_message">Info</string>
+    <string name="picture">Take picture</string>
+    <string name="camera_error">This device does not support Camera2 API</string>
+    <string name="startRecording">Start recording</string>
+    <string name="stopRecording">Stop Recording</string>
+    <string name="title_activity_menu_">Menu_Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">OBD Camera</string>
+    <string name="nav_header_subtitle">wojciech232@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="DISTANCE_TRAVELED_MIL_ON">Distance traveled with MIL on</string>
+    <string name="DISTANCE_TRAVELED_AFTER_CODES_CLEARED">Distance since codes cleared</string>
+    <string name="DTC_NUMBER">Diagnostic Trouble Codes</string>
+    <string name="EQUIV_RATIO">Command Equivalence Ratio</string>
+    <string name="IGNITION_MONITOR">Ignition monitor</string>
+    <string name="CONTROL_MODULE_VOLTAGE">Control Module Power Supply</string>
+    <string name="PENDING_TROUBLE_CODES">Pending Trouble Codes</string>
+    <string name="PERMANENT_TROUBLE_CODES">Permanent Trouble Codes</string>
+    <string name="TIMING_ADVANCE">Timing Advance</string>
+    <string name="TROUBLE_CODES">Trouble Codes</string>
+    <string name="VIN">Vehicle Identification Number</string>
+    <string name="SPEED">Vehicle Speed</string>
+
+    <string name="ABS_LOAD">Absolute load</string>
+    <string name="ENGINE_LOAD">Engine load</string>
+    <string name="MAF">Mass Air Flow</string>
+    <string name="ENGINE_OIL_TEMP">Engine oil temperature</string>
+    <string name="ENGINE_RPM">Engine RPM</string>
+    <string name="ENGINE_RUNTIME">Engine Runtime</string>
+    <string name="REL_THROTTLE_POS">Relative throttle position</string>
+
+    <string name="AIR_FUEL_RATIO">Air/Fuel Ratio</string>
+    <string name="FUEL_CONSUMPTION_RATE">Fuel Consumption Rate</string>
+    <string name="FUEL_TYPE">Fuel Type</string>
+    <string name="FUEL_LEVEL">Fuel Level</string>
+    <string name="WIDEBAND_AIR_FUEL_RATIO">Wideband Air/Fuel Ratio</string>
+
+    <string name="BAROMETRIC_PRESSURE">Barometric Pressure</string>
+    <string name="FUEL_PRESSURE">Fuel Pressure</string>
+    <string name="FUEL_RAIL_PRESSURE">Fuel Rail Pressure</string>
+    <string name="INTAKE_MANIFOLD_PRESSURE">Intake Manifold Pressure</string>
+
+    <string name="AIR_INTAKE_TEMP">Air Intake Temperature</string>
+    <string name="AMBIENT_AIR_TEMP">Ambient Air Temperature</string>
+    <string name="ENGINE_COOLANT_TEMP">Engine Coolant Temperature</string>
+    <string name="control_section">Control Section:</string>
+    <string name="engine_section">Engine Section:</string>
+    <string name="fuel_section">Fuel Section:</string>
+    <string name="pressure_section">Pressure Section:</string>
+    <string name="temperature_section">Temperature Section:</string>
+
+</resources>

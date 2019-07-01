@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ABS_LOAD_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/ABS_LOAD"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ABS_LOAD"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ENGINE_LOAD_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/ENGINE_LOAD"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ENGINE_LOAD"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/MAF_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/MAF"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/MAF"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ENGINE_OIL_TEMP_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/ENGINE_OIL_TEMP"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ENGINE_OIL_TEMP"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ENGINE_RPM_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/ENGINE_RPM"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ENGINE_RPM"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ENGINE_RUNTIME_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/ENGINE_RUNTIME"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ENGINE_RUNTIME"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/REL_THROTTLE_POS_TITLE"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/REL_THROTTLE_POS"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/REL_THROTTLE_POS"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:background="@color/control_background"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</LinearLayout>
