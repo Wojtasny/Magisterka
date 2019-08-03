@@ -66,5 +66,6 @@
     <string name="fuel_section">Fuel Section:</string>
     <string name="pressure_section">Pressure Section:</string>
     <string name="temperature_section">Temperature Section:</string>
+    <string name="title_activity_camera">CameraActivity</string>
 
 </resources>

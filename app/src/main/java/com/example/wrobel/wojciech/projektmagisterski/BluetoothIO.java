@@ -16,7 +16,6 @@ import com.github.pires.obd.commands.protocol.ObdResetCommand;
 import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
 import com.github.pires.obd.commands.protocol.SpacesOffCommand;
 import com.github.pires.obd.commands.protocol.TimeoutCommand;
-import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
 import com.github.pires.obd.enums.ObdProtocols;
 
 import java.util.UUID;
@@ -41,10 +40,12 @@ public class BluetoothIO {
     protected ConnectThread mConnectThread;
     private static ConnectedThread mConnectedThread;
     private AcceptThread mAcceptThread;
+    private BluetoothSocket mBluetoothSocket;
 
     private BluetoothIO(){
         mAdapter = null;
         mHandler = null;
+        mBluetoothSocket = BTProperties.getInstance().getBTSocket();
     }
 
 
@@ -130,7 +131,7 @@ public class BluetoothIO {
     protected void connectionLost(){
         Message msg = mHandler.obtainMessage(MainActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(MainActivity.TOAST, "Lost Connection");
+//        bundle.putString(MainActivity.TOAST, "Lost Connection");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
         BluetoothIO.this.start();
@@ -151,7 +152,7 @@ public class BluetoothIO {
         mConnectedThread.start();
         Message msg = mHandler.obtainMessage(MainActivity.MESSAGE_DEVICE_NAME);
         Bundle bundle = new Bundle();
-        bundle.putString(MainActivity.DEVICE_NAME, device.getName());
+        bundle.putString("device_name", device.getName());
         msg.setData(bundle);
         mHandler.sendMessage(msg);
         setState(STATE_CONNECTED);
@@ -176,29 +177,29 @@ public class BluetoothIO {
 
     protected void initializeOBDlib() {
 
-        if (MainActivity.mBluetoothSocket.isConnected()) {
+        if (mBluetoothSocket.isConnected()) {
             try {
                 final Thread newThread = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            new ObdResetCommand().run(MainActivity.mBluetoothSocket.getInputStream(), MainActivity.mBluetoothSocket.getOutputStream());
+                            new ObdResetCommand().run(mBluetoothSocket.getInputStream(), mBluetoothSocket.getOutputStream());
                             Log.d(TAG, "After first command");
                             Thread.sleep(100);
-                            new EchoOffCommand().run(MainActivity.mBluetoothSocket.getInputStream(), MainActivity.mBluetoothSocket.getOutputStream());
+                            new EchoOffCommand().run(mBluetoothSocket.getInputStream(), mBluetoothSocket.getOutputStream());
                             Thread.sleep(200);
-                            new LineFeedOffCommand().run(MainActivity.mBluetoothSocket.getInputStream(), MainActivity.mBluetoothSocket.getOutputStream());
+                            new LineFeedOffCommand().run(mBluetoothSocket.getInputStream(), mBluetoothSocket.getOutputStream());
                             Thread.sleep(200);
-                            new SpacesOffCommand().run(MainActivity.mBluetoothSocket.getInputStream(), MainActivity.mBluetoothSocket.getOutputStream());
+                            new SpacesOffCommand().run(mBluetoothSocket.getInputStream(), mBluetoothSocket.getOutputStream());
                             Thread.sleep(200);
-                            new SpacesOffCommand().run(MainActivity.mBluetoothSocket.getInputStream(), MainActivity.mBluetoothSocket.getOutputStream());
+                            new SpacesOffCommand().run(mBluetoothSocket.getInputStream(), mBluetoothSocket.getOutputStream());
                             Thread.sleep(200);
-                            new TimeoutCommand(125).run(MainActivity.mBluetoothSocket.getInputStream(), MainActivity.mBluetoothSocket.getOutputStream());
+                            new TimeoutCommand(125).run(mBluetoothSocket.getInputStream(), mBluetoothSocket.getOutputStream());
                             //  updateNotification(getString(R.string.searching_protocol));
                             Thread.sleep(200);
-                            new SelectProtocolCommand(ObdProtocols.AUTO).run(MainActivity.mBluetoothSocket.getInputStream(), MainActivity.mBluetoothSocket.getOutputStream());
+                            new SelectProtocolCommand(ObdProtocols.AUTO).run(mBluetoothSocket.getInputStream(), mBluetoothSocket.getOutputStream());
                             Thread.sleep(200);
-                            new EchoOffCommand().run(MainActivity.mBluetoothSocket.getInputStream(), MainActivity.mBluetoothSocket.getOutputStream());
+                            new EchoOffCommand().run(mBluetoothSocket.getInputStream(), mBluetoothSocket.getOutputStream());
                             //  updateNotification(getString(R.string.searching_supported_sensor));
                             Thread.sleep(200);
                         } catch (Exception e) {

@@ -142,10 +142,10 @@ public class MyMultiOBDCommand extends ObdMultiCommand {
                 formattedResult = "No Data";
             }
             res.append(formattedResult).append(",");
-            msg = mHandler.obtainMessage(Menu_Activity.MESSAGE_READ);
+            msg = mHandler.obtainMessage(MainActivity.MESSAGE_READ);
             Bundle bundle = new Bundle();
-            bundle.putString(Menu_Activity.FORMATTED_VALUE, formattedResult);
-            bundle.putString(Menu_Activity.FORMATTED_VALUE_CLASS_NAME, command.getName());
+            bundle.putString(MainActivity.FORMATTED_VALUE, formattedResult);
+            bundle.putString(MainActivity.FORMATTED_VALUE_CLASS_NAME, command.getName());
             msg.setData(bundle);
             mHandler.sendMessage(msg);
         }

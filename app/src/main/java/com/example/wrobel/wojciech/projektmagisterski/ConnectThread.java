@@ -6,8 +6,6 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.ParcelUuid;
-import android.text.TextDirectionHeuristic;
 import android.util.Log;
 
 import com.github.pires.obd.commands.protocol.EchoOffCommand;
@@ -19,7 +17,6 @@ import com.github.pires.obd.commands.protocol.TimeoutCommand;
 import com.github.pires.obd.enums.ObdProtocols;
 
 import java.io.IOException;
-import java.util.UUID;
 
 public class ConnectThread extends Thread {
 
@@ -121,7 +118,7 @@ public class ConnectThread extends Thread {
     private void connectionFailed() {
         Message msg = mHandler.obtainMessage(MainActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(MainActivity.TOAST, "Not able to connect to a bluetooth device");
+//        bundle.putString(MainActivity.TOAST, "Not able to connect to a bluetooth device");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
 

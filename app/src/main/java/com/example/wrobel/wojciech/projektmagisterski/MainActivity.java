@@ -3,10 +3,13 @@ package com.example.wrobel.wojciech.projektmagisterski;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,23 +17,26 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.logging.StreamHandler;
+import com.github.pires.obd.enums.AvailableCommandNames;
+
+import java.lang.ref.WeakReference;
+import java.util.concurrent.TimeoutException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_ENABLE_BT = 100;
     private static final String TAG = "MainActivity";
-    BluetoothAdapter mBluetoothAdapter;
     private static final int REQUEST_CONNECT_DEVICE = 1;
-    private TextView mConnectionStatus;
-    private TextView mRPM_TV;
-    private TextView mSpeed_TV;
-    protected static BluetoothIO mBluetoothIO;
-    protected static BluetoothSocket mBluetoothSocket;
+    private static final int REQUEST_CAMERA_PERMISSION = 2;
+    private static final int REQUEST_ENABLE_BT = 100;
+
+    private static Context appContext;
+    private BluetoothAdapter mBluetoothAdapter;
+    static BluetoothIO mBluetoothIO;
 
     // Message types accessed from the BluetoothIO Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
@@ -40,70 +46,126 @@ public class MainActivity extends AppCompatActivity {
     public static final int MESSAGE_TOAST = 5;
 
     // Helpers ids for Handler
-    public static final int RPM = 10;
-    public static final int SPEED = 11;
+    public static final String FORMATTED_VALUE = "value_message";
+    public static final String FORMATTED_VALUE_CLASS_NAME = "value_class_name";
+    private TextView mUpdateTV;
+    private LinearLayout mControlSection;
+    private LinearLayout mEngineSection;
+    private LinearLayout mFuelSection;
+    private LinearLayout mPressureSection;
+    private LinearLayout mTemperatureSection;
 
-    // Key names accesses from the BluetoothIO Handler
-    public static final String DEVICE_NAME = "device_name";
-    public static final String TOAST = "toast_message";
-    public static final String FORMATED_VALUE = "value_message";
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CONNECT_DEVICE:
+                if (resultCode == RESULT_OK) {
+                    String address = BTProperties.getInstance().getBTAddress();
+                    String name = BTProperties.getInstance().getBTName();
+                    Toast.makeText(this, "Trying to connect to: " + name, Toast.LENGTH_SHORT).show();
+                    BluetoothDevice mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(address);
+                    mBluetoothIO.connect(mBluetoothDevice);
+                } else {
+                    Toast.makeText(this, "Something went wrong, try to choose device again", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case REQUEST_ENABLE_BT:
+                if (resultCode == RESULT_OK){
+                    Toast.makeText(this, "Bluetooth turned on", Toast.LENGTH_SHORT).show();
+                } else if(resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "Bluetooth must be turned on to use the app", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                break;
+        }
+    }
 
-    private final Handler mMsgHandler = new Handler() {
+    public static class MyMsgHandler extends Handler {
+        private final WeakReference<MainActivity> mTarget;
+
+        MyMsgHandler(MainActivity target) {
+            mTarget = new WeakReference<>(target);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            MainActivity target = mTarget.get();
+            switch (msg.what) {
                 case MESSAGE_STATE_CHANGE:
-                    switch (msg.arg1){
+                    switch (msg.arg1) {
                         case BluetoothIO.STATE_CONNECTING:
-                        mConnectionStatus.setText(getString(R.string.connecting));
-                        mConnectionStatus.setBackgroundColor(Color.YELLOW);
-                        break;
+                            // Connecting
+                            break;
 
                         case BluetoothIO.STATE_CONNECTED:
-                            mConnectionStatus.setText(R.string.status_connected + " " + mConnectedDeviceName);
-                            mConnectionStatus.setBackgroundColor(Color.GREEN);
-//                            sendDefaultCommands();
+                            // Connected
                             break;
 
                         case BluetoothIO.STATE_LISTEN:
                         case BluetoothIO.STATE_NONE:
-                            mConnectionStatus.setText(R.string.not_connected);
-                            mConnectionStatus.setBackgroundColor(Color.RED);
+
                         default:
                             break;
                     }
                     break;
-
-                case MESSAGE_TOAST:
-                    String messageToShow = msg.getData().getString(TOAST);
-                    Toast.makeText(MainActivity.this, messageToShow, Toast.LENGTH_SHORT).show();
                 case MESSAGE_READ:
-                    switch (msg.arg1) {
-                        case RPM:
-                            String rpm = msg.getData().getString(FORMATED_VALUE);
-                            mRPM_TV.setText(rpm);
-                            break;
-                        case SPEED:
-                            String speed = msg.getData().getString(FORMATED_VALUE);
-                            mSpeed_TV.setText(speed);
-                    }
+                    String value = msg.getData().getString(FORMATTED_VALUE);
+                    String val = value.equals("") ? value : "No Data";
+                    String valueClassName = msg.getData().getString(FORMATTED_VALUE_CLASS_NAME);
+                    String actualClassName = getCommandClass(valueClassName);
+                    Log.d(TAG, "handleMessage: "+ value + " " + actualClassName);
+                    target.updateTV(value, actualClassName);
                     break;
             }
         }
-    };
-    private String mConnectedDeviceName;
+
+        private String getCommandClass(String valueClassName) {
+            for(AvailableCommandNames commandNames: AvailableCommandNames.values()) {
+                Log.d(TAG, "getCommandClass: "+ commandNames.getValue()+" and name "+ commandNames.name());
+                if(commandNames.getValue().equals(valueClassName)){
+                    return commandNames.name();
+                }
+            }
+            return null;
+        }
+    }
+
+    public void updateTV(String val, String className){
+        int resID = appContext.getResources().getIdentifier(className, "id", appContext.getPackageName());
+        Log.d(TAG, "updateTV: " + resID);
+        if(resID != 0) {
+            runOnUiThread(() -> {
+                mUpdateTV = (TextView)findViewById(resID);
+                mUpdateTV.setText(val);
+            });
+        }
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        setContentView(R.layout.activity_main);
+//    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_connect:
-                Intent scanForDevices = new Intent(MainActivity.this, DeviceListActivity.class);
-                startActivityForResult(scanForDevices, REQUEST_CONNECT_DEVICE);
-                return true;
+        int id = item.getItemId();
+        Log.d(TAG, "onNavigationItemSelected: ");
 
-            default:
-                return super.onOptionsItemSelected(item);
+        if (id == R.id.nav_camera) {
+            Intent cameraActivity = new Intent(this, CameraActivity.class);
+            startActivity(cameraActivity);
+        } else if (id == R.id.action_connect_bt) {
+            Log.d(TAG, "onNavigationItemSelected: in bluetooth");
+            Intent scanForDevices = new Intent(this, DeviceListActivity.class);
+            startActivityForResult(scanForDevices, REQUEST_CONNECT_DEVICE);
+
+        } else if (id == R.id.nav_manage) {
+            // empty
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -115,85 +177,48 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        if(null == savedInstanceState) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, CameraFragment.newInstance()).commit();
-        }
+        setContentView(R.layout.activity_camera);
+        appContext = getApplicationContext();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
 
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter == null) {
-            Toast toast =  Toast.makeText(this, "Device does not support Bluetooth", Toast.LENGTH_LONG);
-            toast.show();
-            finish();
-        }
-        mRPM_TV = findViewById(R.id.RPM_textView);
-        mSpeed_TV = findViewById(R.id.speed_tv);
-        mConnectionStatus = findViewById(R.id.connectionState);
 
-        startBluetoothIO();
-    }
+        MyMsgHandler mMsgHandler = new MyMsgHandler(this);
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        View decorView = getWindow().getDecorView();
-        if(hasFocus) {
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            | View.SYSTEM_UI_FLAG_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        String text;
-        switch (requestCode) {
-            case REQUEST_CONNECT_DEVICE:
-                if (resultCode == RESULT_OK) {
-                    String address = data.getStringExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-                    Toast toast = Toast.makeText(this, "Got device with address: " + address, Toast.LENGTH_LONG);
-                    toast.show();
-
-                    BluetoothDevice mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(address);
-                    mConnectedDeviceName = mBluetoothDevice.getName();
-                    mBluetoothIO.connect(mBluetoothDevice);
-                }
-                break;
-            case REQUEST_ENABLE_BT:
-                if (resultCode == RESULT_OK){
-                    text = "Bluetooth turned on";
-                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-                } else if(resultCode == RESULT_CANCELED) {
-                    text = "Bluetooth must be turned on to use the app";
-                    Toast.makeText(this, text, Toast.LENGTH_LONG).show();
-                    finish();
-                }
-                break;
-        }
-    }
-
-    private void startBluetoothIO() {
         // Start BluetoothIO
-        if (mBluetoothIO == null) {
+        if(mBluetoothIO == null) {
             mBluetoothIO = new BluetoothIO(this, mMsgHandler);
         }
-        // STATE_NONE only if Bluetooth not started yet
-        if (mBluetoothIO.getState() == BluetoothIO.STATE_NONE) {
+
+        // STATE_NONE only if Bluetooth not yet started
+        if(mBluetoothIO.getState() == BluetoothIO.STATE_NONE) {
             mBluetoothIO.start();
         }
+        mControlSection = (LinearLayout) findViewById(R.id.control_section_readings);
+        mEngineSection = (LinearLayout) findViewById(R.id.engine_section_readings);
+        mFuelSection = (LinearLayout) findViewById(R.id.fuel_section_readings);
+        mPressureSection = (LinearLayout) findViewById(R.id.pressure_section_readings);
+        mTemperatureSection = (LinearLayout) findViewById(R.id.temperature_section_readings);
+
     }
 
-    private void enableBT(){
-        if(!mBluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        }
+    public void toggle_control_readings (View view){
+        mControlSection.setVisibility(mControlSection.isShown() ? View.GONE : View.VISIBLE);
+    }
+
+    public void toggle_engine_readings (View view){
+        mEngineSection.setVisibility(mEngineSection.isShown() ? View.GONE : View.VISIBLE);
+    }
+
+    public void toggle_fuel_readings (View view){
+        mFuelSection.setVisibility(mFuelSection.isShown() ? View.GONE : View.VISIBLE);
+    }
+
+    public void toggle_pressure_readings (View view){
+        mPressureSection.setVisibility(mPressureSection.isShown() ? View.GONE : View.VISIBLE);
+    }
+    public void toggle_temperature_readings (View view){
+        mTemperatureSection.setVisibility(mTemperatureSection.isShown() ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -203,6 +228,19 @@ public class MainActivity extends AppCompatActivity {
         if(mBluetoothAdapter == null) {
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         }
-        enableBT();
+//        if(!mBluetoothAdapter.isEnabled()) {
+//            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+//        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == REQUEST_CAMERA_PERMISSION) {
+            if(grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(getApplicationContext(), "App can't run without camera", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
