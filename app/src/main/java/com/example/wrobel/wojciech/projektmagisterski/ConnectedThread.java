@@ -49,14 +49,11 @@ import com.github.pires.obd.exceptions.NoDataException;
 public class ConnectedThread extends Thread {
     private static final String TAG = "ConnectedThread";
     public static final int MESSAGE_READ = 2;
-    public static final int RPM = 10;
 
     private final BluetoothSocket mSocket;
     private final InputStream mInputStream;
     private final OutputStream mOutputStream;
     private final Handler mHandler;
-    private SpeedCommand mSpeedCommand = new SpeedCommand();
-    private RPMCommand mRPMCommand = new RPMCommand();
 
     public ConnectedThread(BluetoothSocket socket, Handler handler) {
         Log.d(TAG, "ConnectedThread: Constructor");
@@ -77,28 +74,14 @@ public class ConnectedThread extends Thread {
 
     public void run() {
         Log.d(TAG, "Start ConnectedThread");
-//        RPMCommand mRpmCommand = new RPMCommand();
-//        while(!BTProperties.getInstance().getBTSocket().isConnected()) {
-//            try {
-//                sleep(2000);
-//                Log.d(TAG, "run: sleeping");
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 getAllOBDreadings();
-//                getRPM();
-//                getSpeed();
-                sleep(300);
+                sleep(100);
 
             } catch (IOException e) {
                 Log.e(TAG, "Disconnected", e);
-//                MainActivity.mBluetoothIO.connectionLost();
-                // Start the service over to restart listening mode
-//                mBluetoothIO.start();
+                MainActivity.mBluetoothIO.connectionLost();
                 break;
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -113,26 +96,6 @@ public class ConnectedThread extends Thread {
 
         multiCommand.sendCommands();
         Log.d(TAG, "Control: "+ multiCommand.getFormattedResult());
-    }
-
-    private void getSpeed() throws IOException, InterruptedException{
-        mSpeedCommand.run(mSocket.getInputStream(), mSocket.getOutputStream());
-//        Message msg = mHandler.obtainMessage(MainActivity.MESSAGE_READ, MainActivity.SPEED, -1);
-//        Bundle bundle = new Bundle();
-//        bundle.putString(MainActivity.FORMATED_VALUE, mSpeedCommand.getFormattedResult());
-//        msg.setData(bundle);
-//        mHandler.sendMessage(msg);
-        Log.d(TAG, "getSpeed: " + mSpeedCommand.getFormattedResult());
-    }
-
-    private void getRPM() throws IOException, InterruptedException {
-        mRPMCommand.run(mSocket.getInputStream(), mSocket.getOutputStream());
-//        Message msg = mHandler.obtainMessage(MESSAGE_READ, RPM, -1);
-//        Bundle bundle = new Bundle();
-//        bundle.putString(MainActivity.FORMATED_VALUE,mRPMCommand.getFormattedResult());
-//        msg.setData(bundle);
-//        mHandler.sendMessage(msg);
-        Log.d(TAG, "getRPM: " + mRPMCommand.getFormattedResult());
     }
 
     void cancel() {

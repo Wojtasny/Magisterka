@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case MESSAGE_READ:
                     String value = msg.getData().getString(FORMATTED_VALUE);
-                    String val = value.equals("") ? value : "No Data";
                     String valueClassName = msg.getData().getString(FORMATTED_VALUE_CLASS_NAME);
                     String actualClassName = getCommandClass(valueClassName);
                     Log.d(TAG, "handleMessage: "+ value + " " + actualClassName);
@@ -142,12 +141,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        setContentView(R.layout.activity_main);
-//    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -155,15 +148,15 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onNavigationItemSelected: ");
 
         if (id == R.id.nav_camera) {
-            Intent cameraActivity = new Intent(this, CameraActivity.class);
-            startActivity(cameraActivity);
+            Log.d(TAG, "onOptionsItemSelected: Camera chosen");
         } else if (id == R.id.action_connect_bt) {
             Log.d(TAG, "onNavigationItemSelected: in bluetooth");
             Intent scanForDevices = new Intent(this, DeviceListActivity.class);
             startActivityForResult(scanForDevices, REQUEST_CONNECT_DEVICE);
 
         } else if (id == R.id.nav_manage) {
-            // empty
+            Intent openVideoActivity = new Intent(this, VideoGalleryActivity.class);
+            startActivity(openVideoActivity);
         }
         return super.onOptionsItemSelected(item);
     }

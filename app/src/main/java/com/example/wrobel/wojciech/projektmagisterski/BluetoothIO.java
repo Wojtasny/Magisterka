@@ -22,7 +22,6 @@ import java.util.UUID;
 
 
 public class BluetoothIO {
-    //todo 7. write to the Connected Thread
     //todo 8. Indicate that connection attempt failed and notify UI/ connection lost
 
     private static final String TAG = "BluetoothIO";
@@ -131,7 +130,6 @@ public class BluetoothIO {
     protected void connectionLost(){
         Message msg = mHandler.obtainMessage(MainActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-//        bundle.putString(MainActivity.TOAST, "Lost Connection");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
         BluetoothIO.this.start();

@@ -42,14 +42,22 @@ import com.github.pires.obd.commands.temperature.EngineCoolantTemperatureCommand
 import com.github.pires.obd.exceptions.MisunderstoodCommandException;
 import com.github.pires.obd.exceptions.NoDataException;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MyMultiOBDCommand extends ObdMultiCommand {
 
     private static final String TAG = "MyMultiOBDCommand";
+    public static String mReadingsAbsolutePath = null;
     private InputStream mInputStream;
     private OutputStream mOutputStream;
     private ArrayList<ObdCommand> commandsControl;
@@ -58,6 +66,8 @@ public class MyMultiOBDCommand extends ObdMultiCommand {
     private ArrayList<ObdCommand> commandsPreassure;
     private ArrayList<ObdCommand> commandsTemparature;
     private Handler mHandler;
+    private Handler mReadingsHandler;
+    private List<String> singleReadingLine;
 
     public void sendCommands() throws IOException, InterruptedException {
 
@@ -88,6 +98,33 @@ public class MyMultiOBDCommand extends ObdMultiCommand {
         }
         this.mHandler = handler;
         prepareCommands();
+    }
+
+    public MyMultiOBDCommand(Handler handler) {
+        this.mReadingsHandler = handler;
+        prepareCommands();
+    }
+
+    private void parseCommandsFromFile(int readingIndex, List<ObdCommand> commandList){
+        Message msg;
+        for(ObdCommand command: commandList){
+            msg = mReadingsHandler.obtainMessage(VideoPlayerActivity.MESSAGE_READ);
+            Bundle bundle = new Bundle();
+            bundle.putString(VideoPlayerActivity.FORMATTED_VALUE, singleReadingLine.get(readingIndex));
+            bundle.putString(VideoPlayerActivity.FORMATTED_VALUE_CLASS_NAME, command.getName());
+            msg.setData(bundle);
+            mReadingsHandler.sendMessage(msg);
+            readingIndex++;
+        }
+    }
+
+    protected void parseReadings(String readingsLine) {
+        singleReadingLine = Arrays.asList(readingsLine.split(";"));
+        parseCommandsFromFile(0, commandsControl);
+        parseCommandsFromFile(commandsControl.size(), commandsEngine);
+        parseCommandsFromFile(commandsControl.size()+commandsEngine.size(), commandsFuel);
+        parseCommandsFromFile(commandsControl.size()+commandsEngine.size()+commandsFuel.size(), commandsPreassure);
+        parseCommandsFromFile(commandsControl.size()+commandsEngine.size()+commandsFuel.size()+commandsPreassure.size(), commandsTemparature);
     }
 
     private void prepareCommands() {
@@ -141,7 +178,7 @@ public class MyMultiOBDCommand extends ObdMultiCommand {
             if(formattedResult.equals("")){
                 formattedResult = "No Data";
             }
-            res.append(formattedResult).append(",");
+            res.append(formattedResult).append(";");
             msg = mHandler.obtainMessage(MainActivity.MESSAGE_READ);
             Bundle bundle = new Bundle();
             bundle.putString(MainActivity.FORMATTED_VALUE, formattedResult);
@@ -151,6 +188,7 @@ public class MyMultiOBDCommand extends ObdMultiCommand {
         }
         return res;
     }
+
     @Override
     public String getFormattedResult() {
         StringBuilder res = new StringBuilder();
@@ -159,6 +197,31 @@ public class MyMultiOBDCommand extends ObdMultiCommand {
         res.append(getResultFromCommands(commandsFuel));
         res.append(getResultFromCommands(commandsPreassure));
         res.append(getResultFromCommands(commandsTemparature));
+
+        List<String> lines = new ArrayList<>();
+        lines.add(res.toString());
+        if(mReadingsAbsolutePath != null) {
+            try {
+                Files.write(Paths.get(mReadingsAbsolutePath),
+                        lines,
+                        StandardCharsets.UTF_8,
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.APPEND);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d(TAG, "getFormattedResult: Unable to write to readings file");
+            }
+        }
         return res.toString();
+    }
+
+    static void createReadingsFileName(String timeStamp, File mVideoFolder) {
+        String prepend = "READINGS_" + timeStamp;
+        mReadingsAbsolutePath = mVideoFolder.getAbsolutePath() + "/" + prepend + ".txt";
+        Log.d(TAG, "createReadingsFileName: "+ mReadingsAbsolutePath);
+    }
+
+    static void clearReadingsFileName() {
+        mReadingsAbsolutePath = null;
     }
 }

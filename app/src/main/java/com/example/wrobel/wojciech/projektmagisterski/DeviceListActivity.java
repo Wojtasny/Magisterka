@@ -76,6 +76,10 @@ public class DeviceListActivity extends Activity {
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+        if(!mBluetoothAdapter.isEnabled()){
+            mBluetoothAdapter.enable();
+        }
+
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 
         if(pairedDevices.size() > 0){
@@ -94,6 +98,9 @@ public class DeviceListActivity extends Activity {
 
     private void performDiscovery() {
         Log.d(TAG, "performDiscovery: ");
+        if(!mBluetoothAdapter.isEnabled()){
+            mBluetoothAdapter.enable();
+        }
         if(mBluetoothAdapter.isDiscovering()) {
             mBluetoothAdapter.cancelDiscovery();
         }

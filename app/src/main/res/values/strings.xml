@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Projekt Magisterski</string>
+    <string name="app_name">Magisterka</string>
     <string name="pickADevice">Select device to connect</string>
     <string name="title_paired_devices">Paired devices</string>
     <string name="title_discovered_devices">Discovered devices</string>
@@ -67,5 +67,10 @@
     <string name="pressure_section">Pressure Section:</string>
     <string name="temperature_section">Temperature Section:</string>
     <string name="title_activity_camera">CameraActivity</string>
+    <string name="title_activity_video_gallery">VideoGalleryActivity</string>
+    <string name="stop_recording">Record</string>
+    <string name="btn_recording">Stop</string>
+    <string name="error_dialog_camera">Permissions for camera are required</string>
+    <string name="title_activity_video_player">VideoPlayerActivity</string>
 
 </resources>

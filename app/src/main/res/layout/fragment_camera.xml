@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CameraActivityFragment"
+    tools:context=".CameraFragment"
     tools:showIn="@layout/activity_camera">
 
 
-    <TextureView
+    <com.example.wrobel.wojciech.projektmagisterski.AutoFitTextureView
         android:id="@+id/newCameraTextureView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,12 +20,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/start_recording"
+    <Button
+        android:id="@+id/start_stop_recording"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:text="@string/startRecording"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/startRecording"
         android:src="@drawable/ic_menu_camera"
