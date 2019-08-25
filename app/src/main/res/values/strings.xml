@@ -12,7 +12,7 @@
     <string name="connecting">Connecting</string>
     <string name="status_connected">Connected to:</string>
     <string name="not_connected">No connected device</string>
-    <string name="request_permission">This app needs camera permission.</string>
+    <string name="request_permission">This app needs camera and storage permission.</string>
     <string name="info_message">Info</string>
     <string name="picture">Take picture</string>
     <string name="camera_error">This device does not support Camera2 API</string>
