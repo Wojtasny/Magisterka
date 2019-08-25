@@ -77,8 +77,6 @@ public class ConnectedThread extends Thread {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 getAllOBDreadings();
-                sleep(100);
-
             } catch (IOException e) {
                 Log.e(TAG, "Disconnected", e);
                 MainActivity.mBluetoothIO.connectionLost();

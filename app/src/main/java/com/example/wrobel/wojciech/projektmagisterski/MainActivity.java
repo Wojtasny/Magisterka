@@ -2,11 +2,9 @@ package com.example.wrobel.wojciech.projektmagisterski;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -18,14 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.pires.obd.enums.AvailableCommandNames;
 
 import java.lang.ref.WeakReference;
-import java.util.concurrent.TimeoutException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     // Message types accessed from the BluetoothIO Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
     public static final int MESSAGE_READ = 2;
-    public static final int MESSAGE_WRITE = 3;
     public static final int MESSAGE_DEVICE_NAME = 4;
     public static final int MESSAGE_TOAST = 5;
 
@@ -95,11 +90,12 @@ public class MainActivity extends AppCompatActivity {
                 case MESSAGE_STATE_CHANGE:
                     switch (msg.arg1) {
                         case BluetoothIO.STATE_CONNECTING:
-                            // Connecting
+                            Log.d(TAG, "handleMessage: STATE_CONNECTING");
                             break;
 
                         case BluetoothIO.STATE_CONNECTED:
-                            // Connected
+                            Log.d(TAG, "handleMessage: STATE_CONNECTED");
+
                             break;
 
                         case BluetoothIO.STATE_LISTEN:
@@ -147,14 +143,11 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d(TAG, "onNavigationItemSelected: ");
 
-        if (id == R.id.nav_camera) {
-            Log.d(TAG, "onOptionsItemSelected: Camera chosen");
-        } else if (id == R.id.action_connect_bt) {
+        if (id == R.id.nav_bluetooth) {
             Log.d(TAG, "onNavigationItemSelected: in bluetooth");
             Intent scanForDevices = new Intent(this, DeviceListActivity.class);
             startActivityForResult(scanForDevices, REQUEST_CONNECT_DEVICE);
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_video_gallery) {
             Intent openVideoActivity = new Intent(this, VideoGalleryActivity.class);
             startActivity(openVideoActivity);
         }
@@ -221,10 +214,10 @@ public class MainActivity extends AppCompatActivity {
         if(mBluetoothAdapter == null) {
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         }
-//        if(!mBluetoothAdapter.isEnabled()) {
-//            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-//            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-//        }
+        if(!mBluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
     }
 
     @Override

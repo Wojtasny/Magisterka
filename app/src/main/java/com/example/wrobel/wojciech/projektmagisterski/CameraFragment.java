@@ -459,6 +459,10 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Fr
             if (mIsRecordingVideo) {
                 stopRecordingVideo();
             } else {
+                if (MainActivity.mBluetoothIO.getState() != BluetoothIO.STATE_CONNECTED) {
+                    showToast("Connect to OBD device to start recording");
+                    return;
+                }
                 startRecordingVideo();
             }
         }
